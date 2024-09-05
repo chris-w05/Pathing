@@ -1,6 +1,12 @@
 com/pathing/BooleanExpression.class
+com/pathing/Odometry.class
 com/pathing/ImageDrawer.class
+com/pathing/Odometry$Pose2D.class
+com/pathing/Odometry$Encoder.class
 com/pathing/ImgRead$Coordinate.class
+com/pathing/Odometry$ChassisSpeeds.class
+com/pathing/Odometry$Gyro.class
+com/pathing/Odometry$DriveTrain.class
 com/pathing/Node.class
 com/pathing/Pather.class
 com/pathing/DisplayImage.class

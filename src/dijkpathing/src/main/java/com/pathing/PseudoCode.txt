@@ -1,0 +1,35 @@
+Steps:
+Create map of field as a 2 dimensional array or image
+    Create offsets around every border on the image - these will be used later to create enough room for the edges of the robot to move around the obstacles
+    Offsets will also need to account for maximum curvature of path
+
+Create path along image using djikstra's algorithm
+    Already coded
+
+Using parameters such as intial/final/maximum velocity, acceleration, etc. determine velocities along points on path
+    Can be done with a trapezoidal method
+        Iterate through all points along path
+        Use distance/velocity = time to find time at each point of path
+            This requires an initial velocity
+        Ramp velocity from intial to maximum in a t that meets dv/dt = a where a = max acceleration
+    Note: velocities become important later when optimizing curvature
+
+Apply smoothing function to algorithm to create curved paths
+    Curvature can be found by doing a linear approximation of the laplacian of the path (second order gradient)
+
+    Using the curvature, existing points can be changed by moving the points of strongest curvature in the direction of the curvature
+        Think moving the points "into" the curve
+
+    If the new curvature intersects an obstacle, then instead of moving the largest value, then the point of next strongest curvature that is movable should be moved
+
+    Repeat until all points have an acceleration less than a specified maximum
+        Can be done by determining the centripetal acceleration at each point using a = v^2/r and linear acceleration
+            This could mean using either the maximum velocity for every point of the acceleration check
+            Another option is using the velocities potentially from second step
+        Needs an error criterion in case a solution does not converge
+            Errors occur when: (incomplete list)
+            - No points left to change & curvature criteria not met
+            - Oscillating solution - alternating between two possible paths indefinitely
+
+Path is then given to robot as a list of coordinates with times, and using PID the robot uses each point as a waypoint
+    Or any other method, it just needs to follow the time and path.
